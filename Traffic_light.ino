@@ -20,12 +20,12 @@ void loop()
   // check if the pushbutton is pressed
   if (buttonState == HIGH) {
     // Emergency mode: go directly to yellow, then green
-    analogWrite(red_led, 0);
+    analogWrite(green_led, 0);
     analogWrite(yellow_led, 255);
     delay(3000);
     analogWrite(yellow_led, 0);
-    analogWrite(green_led, 255);
-    delay(10000); // Green light stays on for 10 seconds
+    analogWrite(red_led, 255);
+    delay(8000); // Green light stays on for 10 seconds
     
     // Return to normal cycle
     analogWrite(green_led, 0);
