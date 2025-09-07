@@ -28,7 +28,7 @@ void loop()
     delay(8000); // Green light stays on for 10 seconds
     
     // Return to normal cycle
-    analogWrite(green_led, 0);
+    analogWrite(red_led, 0);
     analogWrite(yellow_led, 255);
     delay(3000);
     analogWrite(yellow_led, 0);
