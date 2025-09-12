@@ -45,8 +45,8 @@ void loop() {
 void directionControl() {
   // Read current potentiometer value for speed control
   int potentioValue = analogRead(A0);
-  int motorSpeed = map(motorSpeed, 0, 1023, 0, 255);
-  analogWrite(enA, potentioValue);
+  int motorSpeed = map(potentioValue, 0, 1023, 0, 255);
+  analogWrite(enA, motorSpeed);
 
   // Turn on motor A clockwise
   digitalWrite(in1, HIGH);
