@@ -33,7 +33,7 @@ void loop() {
   float voltage = potentioValue * (5.0 / 1023.0);
   
   // RPM calculatio : Assuming max 330 RPM at full voltage, scaled by potentiometer
-  float rotationSpeed = (voltage * 330 * 10);
+  float rotationSpeed = voltage * 3306;
   
   Serial.print("Voltage: ");
   Serial.print(voltage);
