@@ -22,7 +22,9 @@ void setup() {
   
   // Set up LCD
   lcd.begin(16, 2);
-  lcd.print("Voltage: ");
+  lcd.print("Motor Control");
+  delay(1000);
+  lcd.clear();
 }
 
 void loop() {
@@ -30,16 +32,59 @@ void loop() {
   int potentioValue = analogRead(A0);
   float voltage = potentioValue * (5.0 / 1023.0);
   
-  Serial.println(voltage);
+  // RPM calculatio : Assuming max 330 RPM at full voltage, scaled by potentiometer
+  float rotationSpeed = (voltage * 330 * 10);
+  
+  Serial.print("Voltage: ");
+  Serial.print(voltage);
+  Serial.print("V, RPM: ");
+  Serial.println(rotationSpeed);
   
   // Update LCD display
   lcd.setCursor(0, 0);
-  lcd.print("Voltage: ");
+  lcd.print("V:");
   lcd.print(voltage);
-  lcd.print("V   ");  // Extra spaces to clear previous values
+  lcd.print("V  RPM:");
+  lcd.print(rotationSpeed);
+  lcd.print("   ");
   
+  lcd.setCursor(0, 1);
+  lcd.print("Time:");
+  lcd.print(millis()/1000);
+  lcd.print("s    ");
+  
+  // Control motor
   directionControl();
-  delay(3000);
+  
+  // scroll 13 positions (string length) to the left
+  // to move it offscreen left:
+  for (int positionCounter = 0; positionCounter < 13; positionCounter++) {
+    // scroll one position left:
+    lcd.scrollDisplayLeft();
+    // wait a bit:
+    delay(150);
+  }
+
+  // scroll 29 positions (string length + display length) to the right
+  // to move it offscreen right:
+  for (int positionCounter = 0; positionCounter < 29; positionCounter++) {
+    // scroll one position right:
+    lcd.scrollDisplayRight();
+    // wait a bit:
+    delay(150);
+  }
+
+  // scroll 16 positions (display length + string length) to the left
+  // to move it back to center:
+  for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
+    // scroll one position left:
+    lcd.scrollDisplayLeft();
+    // wait a bit:
+    delay(150);
+  }
+
+  // delay at the end of the full loop:
+  delay(100);
 }
 
 void directionControl() {
@@ -51,17 +96,9 @@ void directionControl() {
   // Turn on motor A clockwise
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
-  // delay(3000);
-
-  // Reverse direction
+  
+   // Reverse direction
   // digitalWrite(in1, LOW);
   // digitalWrite(in2, HIGH);
   // delay(3000);
-
-  
-  // Display time on second line
-  lcd.setCursor(0, 1);
-  lcd.print("Time: ");
-  lcd.print(millis()/1000);
-  lcd.print("s    ");
 }
